@@ -47,7 +47,7 @@ public class MainJava {
 	        statement = dbConnection.createStatement();
 	        //make SQL query
 	        statement.execute(createTableSQL);
-	        System.out.println("Table \"Customer\" is created!");
+	        System.out.println("Table created");
 			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -61,9 +61,35 @@ public class MainJava {
 		}
 	}
 
+	private static void deleteDbUserTable() throws SQLException {
+		Connection dbConnection = null;
+	    Statement statement = null;
+	    
+	    String deleteTableSQL = "DROP TABLE Customer";
+	    
+	    try {
+	    	dbConnection = getDBConnection();
+	        statement = dbConnection.createStatement();
+	        //delete table
+	        statement.execute(deleteTableSQL);
+	        System.out.println("Table deleted from DB");
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} finally {
+			if (statement != null) {
+	            statement.close();
+	        }
+	        if (dbConnection != null) {
+	            dbConnection.close();
+	        }
+		}
+	}
+	
 	public static void main(String[] args) {
 		try {
 	        createDbUserTable();
+	        deleteDbUserTable();
 	    } catch (SQLException e) {
 	        System.out.println(e.getMessage());
 	    }
