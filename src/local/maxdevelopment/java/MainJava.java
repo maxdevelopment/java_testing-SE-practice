@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class MainJava {
+	private static Connection dbConnection = null;
+	private static Statement statement = null;
 	
 	private static Connection getDBConnection() {
 		
@@ -31,8 +33,6 @@ public class MainJava {
 	}
 	
 	private static void createDbUserTable() throws SQLException {
-		Connection dbConnection = null;
-	    Statement statement = null;
 	    
 	    String createTableSQL = "CREATE TABLE Customer("
 	            + "name VARCHAR(30) NOT NULL, "
@@ -62,8 +62,6 @@ public class MainJava {
 	}
 
 	private static void deleteDbUserTable() throws SQLException {
-		Connection dbConnection = null;
-	    Statement statement = null;
 	    
 	    String deleteTableSQL = "DROP TABLE Customer";
 	    
