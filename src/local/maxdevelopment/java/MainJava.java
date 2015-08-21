@@ -52,12 +52,7 @@ public class MainJava {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		} finally {
-			if (statement != null) {
-	            statement.close();
-	        }
-	        if (dbConnection != null) {
-	            dbConnection.close();
-	        }
+			closeDbConnection();
 		}
 	}
 
@@ -75,14 +70,18 @@ public class MainJava {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		} finally {
-			if (statement != null) {
-	            statement.close();
-	        }
-	        if (dbConnection != null) {
-	            dbConnection.close();
-	        }
+			closeDbConnection();
 		}
 	}
+	
+	private static void closeDbConnection() throws SQLException {
+		if (statement != null) {
+            statement.close();
+        }
+        if (dbConnection != null) {
+            dbConnection.close();
+        }
+	} 
 	
 	public static void main(String[] args) {
 		try {
