@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 public class MainJava {
 	private static Connection dbConnection = null;
 	private static Statement statement = null;
@@ -34,12 +35,12 @@ public class MainJava {
 	
 	private static void createDbUserTable() throws SQLException {
 	    
-	    String createTableSQL = "CREATE TABLE Customer("
-	            + "name VARCHAR(30) NOT NULL, "
-	            + "surname VARCHAR(30) NOT NULL, "
-	            + "login VARCHAR(30) NOT NULL, "
-	            + "email VARCHAR(30) NOT NULL, "
-	            + "phone VARCHAR(30) NOT NULL "
+	    String createTableSQL = "CREATE TABLE IF NOT EXISTS Customer("
+	            + "name VARCHAR(50) NOT NULL, "
+	            + "surname VARCHAR(50) NOT NULL, "
+	            + "login VARCHAR(50) NOT NULL, "
+	            + "email VARCHAR(50) NOT NULL, "
+	            + "phone VARCHAR(50) NOT NULL "
 	            + ")";
 	    
 	    try {
@@ -75,18 +76,27 @@ public class MainJava {
 	}
 	
 	private static void closeDbConnection() throws SQLException {
-		if (statement != null) {
-            statement.close();
-        }
-        if (dbConnection != null) {
-            dbConnection.close();
-        }
+		try {
+			if (statement != null) {
+	            statement.close();
+	        }
+	        if (dbConnection != null) {
+	            dbConnection.close();
+	        }
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
 	} 
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		try {
 	        createDbUserTable();
-	        deleteDbUserTable();
+	        //deleteDbUserTable();
+	        
+	        CSVLoaderToDbase csvLoaderToDbase = new CSVLoaderToDbase(getDBConnection(), ',', '"', 1);
+	        csvLoaderToDbase.loadCSV("users.csv", "CSVBase");
+	        closeDbConnection();
+	        
 	    } catch (SQLException e) {
 	        System.out.println(e.getMessage());
 	    }
